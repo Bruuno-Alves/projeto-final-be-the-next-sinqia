@@ -10,7 +10,6 @@ namespace ProjetoPooAdaBank
     {
         string Tipo { get; set; }
         public double Valor { get; set; }
-
         public Transacao(string tipo, double valor)
         {
             Tipo = tipo;

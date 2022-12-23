@@ -14,14 +14,14 @@ namespace ProjetoPooAdaBank
         public double Saldo { get; protected set; }
         public List<Transacao> Extrato { get; private set; }
         public double ValorTaxaManutencao { get; set; } //Ideal definir o valor da taxa de manutenção dentro de cada construtor das classes filhas
-
+        public static int ContasAbertas { get; private set; }
         public Conta(int numeroAgencia, int numeroConta, Cliente titular)
         {
             NumeroAgencia = numeroAgencia;
             NumeroConta = numeroConta;
             Titular = titular;
-            //Preciso ver como instanciar uma lista dentro de um construtor
-            // Extrato = new List<Transacao>;
+            Extrato = new List<Transacao>();
+            ContasAbertas++;
         }
 
         public void Depositar(double valor)
@@ -43,9 +43,17 @@ namespace ProjetoPooAdaBank
 
         //O valor de cada conta pode ser definida através do valor passado dentro do construtor de
         //cada classe filha, por isso não deixei o método como virtual para ser sobrescrito
-        public double CalcularValorTarifaManutencao() 
+        public virtual double CalcularValorTarifaManutencao() 
         {
             return Saldo * ValorTaxaManutencao;
+        }
+
+        public void MostrarExtrato()
+        {
+            foreach(Transacao transacao in Extrato)
+            {
+                Console.WriteLine(transacao.ToString());
+            }
         }
     }
 }

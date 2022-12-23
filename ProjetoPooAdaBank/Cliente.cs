@@ -8,8 +8,15 @@ namespace ProjetoPooAdaBank
 {
     public class Cliente
     {
-        public string Nome { get; set; }
-        public string Cpf { get; set; }
+        public string Nome { get; private set; }
+        public string Cpf { get; private set; }
         public Endereco Endereco { get; set; }
+
+        public Cliente(string nome, string cpf, Endereco endereco) 
+        {
+            Nome= nome;
+            Cpf= cpf;
+            Endereco = endereco;
+        }
     }
 }
