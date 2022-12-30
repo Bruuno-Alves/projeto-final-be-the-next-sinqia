@@ -1,5 +1,7 @@
 ﻿using ProjetoPooAdaBank.ContaSalario3;
 using ProjetoPooAdaBank.ContaPoupanca1;
+using ProjetoPooAdaBank.Investimento;
+
 namespace ProjetoPooAdaBank
 {
     public class Program
@@ -10,6 +12,8 @@ namespace ProjetoPooAdaBank
             Cliente cliente1 = new Cliente("Jonas Augusto", "000.000.000-00", endereco1);
             ContaSalario cs = new ContaSalario(28, 123, cliente1, "11.111.111/0001-11", 2500);
             ContaPoupanca cp = new ContaPoupanca(13, 131313, cliente1, 50);
+            ContaInvestimento ci = new(49,494949,cliente1);
+            ContaInvestimento ci1 = new(51, 515151, cliente1, 1000.55);
 
             Console.WriteLine(cs.Saldo);
             cs.DepositarSalario(2500, "11.111.111/0001-11");
