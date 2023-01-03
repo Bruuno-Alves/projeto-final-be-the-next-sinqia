@@ -10,11 +10,6 @@ namespace ProjetoPooAdaBank.Investimento
 		{
 			 PerfilInvestidor = AvaliaPerfil();
         }
-        public ContaInvestimento(int numeroAgencia, int numeroConta, Cliente titular, double SaldoInicial) : base(numeroAgencia, numeroConta, titular)
-        {
-            Saldo = SaldoInicial;
-            PerfilInvestidor = AvaliaPerfil();
-        }
 
         public void Investir()
         {

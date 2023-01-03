@@ -13,7 +13,6 @@ namespace ProjetoPooAdaBank
             ContaSalario cs = new ContaSalario(28, 123, cliente1, "11.111.111/0001-11", 2500);
             ContaPoupanca cp = new ContaPoupanca(13, 131313, cliente1, 50);
             ContaInvestimento ci = new(49,494949,cliente1);
-            ContaInvestimento ci1 = new(51, 515151, cliente1, 1000.55);
 
             Console.WriteLine(cs.Saldo);
             cs.DepositarSalario(2500, "11.111.111/0001-11");
