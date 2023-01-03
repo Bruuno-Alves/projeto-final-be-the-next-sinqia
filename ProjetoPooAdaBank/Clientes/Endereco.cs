@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ProjetoPooAdaBank
+namespace ProjetoPooAdaBank.Clientes
 {
     public class Endereco
     {
@@ -20,7 +20,7 @@ namespace ProjetoPooAdaBank
             Numero = numero;
             Bairro = bairro;
             Cidade = cidade;
-            Estado = estado;    
+            Estado = estado;
         }
 
         public override string ToString()

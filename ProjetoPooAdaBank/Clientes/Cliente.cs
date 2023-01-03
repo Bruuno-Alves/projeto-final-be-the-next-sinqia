@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ProjetoPooAdaBank
+namespace ProjetoPooAdaBank.Clientes
 {
     public class Cliente
     {
@@ -12,10 +12,10 @@ namespace ProjetoPooAdaBank
         public string Cpf { get; private set; }
         public Endereco Endereco { get; set; }
 
-        public Cliente(string nome, string cpf, Endereco endereco) 
+        public Cliente(string nome, string cpf, Endereco endereco)
         {
-            Nome= nome;
-            Cpf= cpf;
+            Nome = nome;
+            Cpf = cpf;
             Endereco = endereco;
         }
     }
