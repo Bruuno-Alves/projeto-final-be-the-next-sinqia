@@ -1,4 +1,5 @@
-﻿using ProjetoPooAdaBank.Clientes;
+﻿using ConsoleApp;
+using ProjetoPooAdaBank.Clientes;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -45,9 +46,17 @@ namespace ProjetoPooAdaBank.Contas
 
             Console.WriteLine("Informe o seu nome");
             nomeCompleto = Console.ReadLine();
-
-            Console.WriteLine("Informe o seu CPF");
-            CPF = Console.ReadLine();
+            do
+            {
+                Console.WriteLine("Informe o seu CPF");
+                CPF = Console.ReadLine();
+                if (CPFValidator.ValidaCPF(CPF))
+                {
+                    break;
+                }
+                Console.WriteLine("CPF inválido, por favor digite novamente.");
+            } while (true);
+            
 
             Console.WriteLine("Informe a rua da sua residência");
             rua = Console.ReadLine();
