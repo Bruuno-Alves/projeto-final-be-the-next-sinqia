@@ -1,7 +1,7 @@
 ﻿using ProjetoPooAdaBank.Clientes;
 using System;
 
-namespace ProjetoPooAdaBank.Investimento
+namespace ProjetoPooAdaBank.Contas
 {
 	public class ContaInvestimento : Conta
 	{
@@ -42,7 +42,7 @@ namespace ProjetoPooAdaBank.Investimento
             else
             {
                 Saldo -= valor;
-                Extrato.Add(new Transacao(infoExtrato, valor));
+                Extrato.Add(new Transacao(infoExtrato, valor, Saldo));
             }
         }
         private double Acoes()
