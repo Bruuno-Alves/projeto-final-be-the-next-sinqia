@@ -13,13 +13,12 @@ namespace ProjetoPooAdaBank.Contas
         public Holerite Holerite { get; }
 
         public ContaSalario(
-            int numeroAgencia,
             int numeroConta,
             string email,
             string senha,
             Cliente titular,
             string cnpjEmpregador,
-            double salarioLiquido) : base(numeroAgencia, numeroConta, email, senha, titular)
+            double salarioLiquido) : base(numeroConta, email, senha, titular)
         {
             this.TipoConta = 2;
             Holerite = new Holerite(cnpjEmpregador, salarioLiquido);

@@ -24,9 +24,9 @@ namespace ProjetoPooAdaBank.Contas
 
         public static List<Conta> ContasCriadas = new List<Conta>();
 
-        public Conta(int numeroAgencia, int numeroConta, string email, string senha, Cliente titular)
+        public Conta( int numeroConta, string email, string senha, Cliente titular)
         {
-            NumeroAgencia = numeroAgencia;
+            NumeroAgencia = 0001;
             NumeroConta = numeroConta;
             Email = email;
             Senha = senha;
@@ -34,15 +34,14 @@ namespace ProjetoPooAdaBank.Contas
             Extrato = new List<Transacao>();
             ContasAbertas++;
             DataAbertura = DateTime.Now;
-
             ContasCriadas.Add(this);
         }
 
         public static (Conta, bool) Logar(string email, string senha)
         {
-            foreach(Conta conta in ContasCriadas)
+            foreach (Conta conta in ContasCriadas)
             {
-                if(conta.Email == email && conta.Senha == senha)
+                if (conta.Email == email && conta.Senha == senha)
                 {
                     Console.WriteLine($"Seja bem vindo/a {conta.Titular.Nome}");
                     return (conta, true);
@@ -62,7 +61,8 @@ namespace ProjetoPooAdaBank.Contas
                 Console.WriteLine("Deposito realizado com sucesso!");
                 Extrato.Add(new Transacao("Depósito", valor, Saldo));
             }
-            
+
+
         }
 
         public bool Sacar(double valor, bool transferir = false)
@@ -87,7 +87,7 @@ namespace ProjetoPooAdaBank.Contas
         // VALIDAR UMA FORMA DE REUTILIZAR OS MÉTODOS DEPOSITAR + SACAR, SE NÃO, REESCREVE-LO.
         public void Transferir(double valor, string cpf)
         {
-            foreach(Conta conta in Conta.ContasCriadas)
+            foreach (Conta conta in Conta.ContasCriadas)
             {
                 if (conta.Titular.Cpf == cpf && this.TipoConta != conta.TipoConta)
                 {
@@ -99,8 +99,8 @@ namespace ProjetoPooAdaBank.Contas
 
                     Extrato.Add(new Transacao("Transferência", valor, Saldo));
                     return;
-                } 
-                else if(conta.Titular.Cpf == cpf && this.TipoConta == conta.TipoConta)
+                }
+                else if (conta.Titular.Cpf == cpf && this.TipoConta == conta.TipoConta)
                 {
                     Console.Write(conta.Titular.Cpf);
                     Sacar(valor, true);
@@ -116,15 +116,11 @@ namespace ProjetoPooAdaBank.Contas
             Console.WriteLine("Conta destino não encontrada!");
         }
 
+        // alterar pra ser usado dentro do saque, baseado no valor a ser sacado e não no saldo da conta.
         public virtual double CalcularValorTarifaManutencao()
         {
 
             return Saldo * ValorTaxaManutencao;
-        }
-
-        public void AplicarTaxaManutencao()
-        {
-            this.Saldo -= CalcularValorTarifaManutencao();
         }
 
         public void MostrarExtrato()

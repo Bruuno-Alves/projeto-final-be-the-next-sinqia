@@ -43,12 +43,17 @@ namespace ProjetoPooAdaBank.Contas
 
                     (Conta conta, logou) = Conta.Logar(email, senha);
 
-                    if(logou)
+                    if (logou)
                     {
+                        
                         Console.WriteLine($"Olá {conta.Titular.Nome}, que tipo de operação deseja fazer hoje?\n " +
                             $"[1] Saque\n [2] Visualizar Extrato\n [3] Deposito\n [4] Transferência\n" +
                             $" [5] Consulta de saldo ");
-
+                        if (conta is ContaInvestimento)
+                        {
+                            
+                            Console.WriteLine($" [6] Novo Investimento");
+                        }
                         do
                         {
                             converteu = int.TryParse(Console.ReadLine(), out operacao);
@@ -60,7 +65,7 @@ namespace ProjetoPooAdaBank.Contas
                                 string resposta;
                                 FazerOperacao(conta, operacao);
 
-                                while(true)
+                                while (true)
                                 {
                                     Console.WriteLine("Deseja fazer outra operação? (sim/nao)");
                                     resposta = Console.ReadLine();
@@ -75,22 +80,27 @@ namespace ProjetoPooAdaBank.Contas
                                     Console.WriteLine($"Olá {conta.Titular.Nome}, que tipo de operação deseja fazer hoje?\n " +
                             $"[1] Saque\n [2] Visualizar Extrato\n [3] Deposito\n [4] Transferência\n" +
                             $" [5] Consulta de saldo ");
+                                    if (conta is ContaInvestimento)
+                                    {
+
+                                        Console.WriteLine($" [6] Novo Investimento");
+                                    }
 
                                     converteu = int.TryParse(Console.ReadLine(), out operacao);
                                     if (!converteu) Console.WriteLine("Opção inválida, até logo!");
 
                                     FazerOperacao(conta, operacao);
-                                } 
-                                
+                                }
+
                             }
                         } while (!converteu);
-                       
+
                         break;
                     }
                     else
                     {
                         tentativas--;
-                        if(tentativas == 0)
+                        if (tentativas == 0)
                         {
                             Console.Clear();
 
@@ -100,7 +110,7 @@ namespace ProjetoPooAdaBank.Contas
 
                         Console.WriteLine();
                     }
-                } while(tentativas > 0);
+                } while (tentativas > 0);
             }
         }
         public void MensagemInicial()
@@ -108,9 +118,9 @@ namespace ProjetoPooAdaBank.Contas
             Console.WriteLine("$$$$$$$$$$$$$$$$$$$$$");
             Console.WriteLine("Bem Vindo ao Ada Bank");
             Console.WriteLine("$$$$$$$$$$$$$$$$$$$$$");
-            
+
         }
-        
+
         public Endereco CadastrarEndereco()
         {
             String logradouro, bairro, cidade, estado, cep;
@@ -127,7 +137,7 @@ namespace ProjetoPooAdaBank.Contas
                 Console.WriteLine("Informe o número da sua redidência");
                 converteu = int.TryParse(Console.ReadLine(), out numero);
 
-                if(!converteu)
+                if (!converteu)
                 {
                     Console.WriteLine("Digite um número válido");
                 }
@@ -193,6 +203,9 @@ namespace ProjetoPooAdaBank.Contas
         public Conta AbrirConta()
         {
             int tipoConta;
+
+            Cliente clienteCadastrado = CadastrarCliente();
+
             Console.WriteLine("Que tipo de conta você deseja abrir?");
             Console.WriteLine("[1] - Poupança\n[2] - Salario\n[3] - Investimento");
 
@@ -212,8 +225,6 @@ namespace ProjetoPooAdaBank.Contas
 
                 Random random = new Random();
 
-                Cliente clienteCadastrado = CadastrarCliente();
-
                 Console.WriteLine("Informe o CNPJ do seu empregador");
                 cnpjEmpregador = Console.ReadLine();
 
@@ -224,11 +235,11 @@ namespace ProjetoPooAdaBank.Contas
                 {
                     converteu = double.TryParse(Console.ReadLine(), out salario);
 
-                    if (!converteu)
+                    if (salario <= 0)
                     {
                         Console.WriteLine("Digite um salário válido!");
                     }
-                } while (!converteu);
+                } while (salario <= 0);
 
                 Console.Clear();
 
@@ -241,7 +252,6 @@ namespace ProjetoPooAdaBank.Contas
                 senha = Console.ReadLine();
 
                 ContaSalario contaSalario = new ContaSalario(
-                    001,
                     random.Next(0, 9999),
                     email,
                     senha,
@@ -260,8 +270,25 @@ namespace ProjetoPooAdaBank.Contas
                 return contaSalario;
             }
 
+            if(tipoConta == 3)
+            {
+                String email, senha;
+                Random random = new Random();
+                Console.Clear();
+                Console.WriteLine("Informe o seu Email");
+                email = Console.ReadLine();
+                Console.Clear();
+                Console.WriteLine("Crie uma senha");
+                senha = Console.ReadLine();
+
+                ContaInvestimento ContaInvestimento = new(random.Next(0,9999),email,senha,clienteCadastrado);
+
+            }
+
             return null;
         }
+
+        
 
         public void FazerOperacao(Conta conta, int operacao)
         {
@@ -307,6 +334,11 @@ namespace ProjetoPooAdaBank.Contas
             else if (operacao == 5)
             {
                 Console.WriteLine($"O seu saldo atual é de R${conta.Saldo}");
+            }
+            else if(operacao == 6 && conta is ContaInvestimento)
+            {
+                var contaInvestimento = (ContaInvestimento)conta;
+                contaInvestimento.Investir();
             }
             else
             {

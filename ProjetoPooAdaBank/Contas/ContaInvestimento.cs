@@ -8,12 +8,19 @@ namespace ProjetoPooAdaBank.Contas
 		public string PerfilInvestidor { get; private set; }
 
         public ContaInvestimento(
-            int numeroAgencia, 
             int numeroConta,
             string email,
             string senha,
-            Cliente titular) : base(numeroAgencia,numeroConta, email, senha, titular)
+            Cliente titular, bool ignoraPerfil) : base(numeroConta, email, senha, titular)
 		{
+            this.TipoConta = 3;
+        }
+        public ContaInvestimento(
+            int numeroConta,
+            string email,
+            string senha,
+            Cliente titular) : base(numeroConta, email, senha, titular)
+        {
             this.TipoConta = 3;
             PerfilInvestidor = AvaliaPerfil();
 
@@ -31,7 +38,7 @@ namespace ProjetoPooAdaBank.Contas
                     "[1] - Renda Fixa\n[2] - Ações");
                
                 int.TryParse(Console.ReadLine(), out opcao);
-            }while(opcao != 1 || opcao != 2);
+            }while(opcao != 1 && opcao != 2);
             if(opcao == 1)
             {
                 infoExtrato = "Investimento - Renda Fixa ";
@@ -44,7 +51,7 @@ namespace ProjetoPooAdaBank.Contas
             }
             if(valor == 0)
             {
-                Console.WriteLine("Operação cancelada.");
+                Console.WriteLine("Investimento cancelado.");
             }
             else
             {
@@ -112,7 +119,7 @@ namespace ProjetoPooAdaBank.Contas
                     }
                 } while(quant <=0 ||  valorTotal > Saldo);
 
-                Console.WriteLine($"O valor pago nas ações será de {valorTotal}R$, seu novo saldo será de {Saldo - valorTotal}\n" +
+                Console.WriteLine($"O valor pago nas ações será de {valorTotal}R$, \nseu novo saldo será de {Saldo - valorTotal}R$\n" +
                     $"[1] - Concluir, [2] - Reiniciar , [3] - Cancelar");
                 int.TryParse(Console.ReadLine(), out loop);
 
@@ -134,18 +141,23 @@ namespace ProjetoPooAdaBank.Contas
             {
                 Console.Clear();
                 Console.WriteLine("Informe quanto deseja investir, " +
-                    "após isso escolha entre as opções e veja uma prévia do valor (sem correção)");
-                
+                    "após isso escolha entre as opções e veja uma prévia do valor (sem correção)\n");
+
+                Console.WriteLine("Você também pode cancelar a operação digitando o valor 0");
                 do
                 {
                     double.TryParse(Console.ReadLine(), out valor);
 
-                    if (valor <= 0 || valor > Saldo)
+                    if (valor < 0 || valor > Saldo)
                     {
-                        Console.WriteLine("Valor negativo ou superior ao seu saldo, tente novamente.");
+                        Console.WriteLine("Valor negativo ou superior ao seu saldo, tente novamente. ou digite 0 para sair");
                     }
-                } while (valor <= 0 || valor > Saldo);
-                
+                } while (valor < 0 || valor > Saldo);
+                if(valor == 0)
+                {
+                    break;
+                }
+
                 do
                 {
                     Console.WriteLine("As opções de investimento disponíveis são:\n" +
@@ -194,14 +206,14 @@ namespace ProjetoPooAdaBank.Contas
             string perfil;
             int r1, r2, r3, r4, r5;
             bool validaResposta;
-            Console.WriteLine("Nós do AdaBank Estamos muito feliz que você deseja abrir uma conta de investimento conosco");
+            Console.WriteLine("Nós do AdaBank Estamos muito felizes que você abriu uma conta de investimento conosco");
             Console.WriteLine("Por favor responda nosso breve questionário para avaliarmos o seu perfil de investimento");
             do
             {
                 Console.WriteLine("1ª - Sua profissão atual exige que você tenha conhecimento sobre o mercado financeiro?");
-                Console.WriteLine("[1] = SIM \n[0] = NÃO");
+                Console.WriteLine("[1] = NÃO \n[2] = SIM");
                 validaResposta = int.TryParse(Console.ReadLine(), out r1);
-            } while (!validaResposta || r1 < 0 || r1 > 1);
+            } while (!validaResposta || r1 < 1 || r1 > 2);
             Console.Clear();
             do
             {
@@ -234,20 +246,16 @@ namespace ProjetoPooAdaBank.Contas
                 validaResposta = int.TryParse(Console.ReadLine(), out r5);
             } while ( r5 < 1 || r5 > 3);
             Console.Clear();
-            int media = (r1 * 3 + r2 + r3 + r4 + r5)/5;
-            if (media == 0)
-            {
-                media = 1;
-            }
+            int media = (r1 + r2 + r3 + r4 + r5)/4;
             switch (media)
             {
-                default:
                 case 1:
                     perfil = "CONSERVADOR: Proteger seu patrimônio e evita o risco";
                     break;
                 case 2:
                     perfil = "MODERADO: Aceitar correr algum risco e diversificar o investimento";
                     break;
+                default:
                 case 3:
                     perfil = "AGRESSIVO: Aceita grandes riscos em busca de uma recompensa tão grande quanto";
                     break;

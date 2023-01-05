@@ -12,12 +12,11 @@ namespace ProjetoPooAdaBank.Contas
     {
         static readonly int saldoMin = 50;
         public ContaPoupanca(
-            int numeroAgencia,
             int numeroConta,
             string email,
             string senha,
             Cliente titular,
-            double valorInicial) : base(numeroAgencia, numeroConta, email, senha, titular)
+            double valorInicial) : base(numeroConta, email, senha, titular)
         {
             this.TipoConta = 1;
             Saldo = valorInicial;
