@@ -10,13 +10,13 @@ namespace ProjetoPooAdaBank.Contas
 {
     public abstract class Conta
     {
-        public int TipoConta{ get; protected set; }
+        public int TipoConta { get; protected set; }
         public int NumeroAgencia { get; private set; }
         public int NumeroConta { get; private set; }
         public Cliente Titular { get; set; }
         public double Saldo { get; protected set; }
         public List<Transacao> Extrato { get; private set; }
-        private double ValorTaxaManutencao { get; set; } 
+        private double ValorTaxaManutencao { get; set; }
         public static int ContasAbertas { get; private set; }
         public DateTime DataAbertura { get; private set; }
         public Conta(int numeroAgencia, int numeroConta, Cliente titular)
@@ -33,11 +33,11 @@ namespace ProjetoPooAdaBank.Contas
         {
             Saldo += valor;
 
-            if(transferir == false)
+            if (transferir == false)
             {
                 Extrato.Add(new Transacao("Depósito", valor, Saldo));
             }
-            
+
         }
 
         public bool Sacar(double valor, bool transferir = false)
@@ -46,11 +46,11 @@ namespace ProjetoPooAdaBank.Contas
             {
                 Saldo -= valor;
 
-                if(transferir == false)
+                if (transferir == false)
                 {
-                   Extrato.Add(new Transacao("Saque", valor, Saldo));
+                    Extrato.Add(new Transacao("Saque", valor, Saldo));
                 }
-                
+
                 return true;
             }
             return false;
@@ -59,7 +59,7 @@ namespace ProjetoPooAdaBank.Contas
         // VALIDAR UMA FORMA DE REUTILIZAR OS MÉTODOS DEPOSITAR + SACAR, SE NÃO, REESCREVE-LO.
         public void Transferir(double valor, Conta destino)
         {
-            if(this.TipoConta != destino.TipoConta)
+            if (this.TipoConta != destino.TipoConta)
             {
                 int taxa = 5;
                 Sacar(valor + taxa, true);

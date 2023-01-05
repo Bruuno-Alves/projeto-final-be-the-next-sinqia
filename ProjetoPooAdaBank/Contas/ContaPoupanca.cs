@@ -10,7 +10,6 @@ namespace ProjetoPooAdaBank.Contas
 {
     internal class ContaPoupanca : Conta
     {
-        int tipoConta = 1;
         static readonly int saldoMin = 50;
         public ContaPoupanca(
             int numeroAgencia,
