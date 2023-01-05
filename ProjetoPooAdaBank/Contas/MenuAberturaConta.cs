@@ -21,9 +21,10 @@ namespace ProjetoPooAdaBank.Contas
                 int.TryParse(Console.ReadLine(), out input);
             } while (input != 1 && input != 2);
 
+            Console.Clear();
+
             if (input == 1)
             {
-                DadosCliente();
                 AbrirConta();
             }
             else
@@ -38,14 +39,64 @@ namespace ProjetoPooAdaBank.Contas
             Console.WriteLine("$$$$$$$$$$$$$$$$$$$$$");
             
         }
-
-        public void DadosCliente()
+        
+        public Endereco CadastrarEndereco()
         {
-            String nomeCompleto, CPF,rua, bairro, cidade,estado, cep;
+            String logradouro, bairro, cidade, estado, cep;
             int numero;
+            bool converteu;
+
+            Console.WriteLine("Informe o seu logradouro");
+            logradouro = Console.ReadLine();
+
+            Console.Clear();
+
+            do
+            {
+                Console.WriteLine("Informe o número da sua redidência");
+                converteu = int.TryParse(Console.ReadLine(), out numero);
+
+                if(!converteu)
+                {
+                    Console.WriteLine("Digite um número válido");
+                }
+
+            } while (!converteu);
+
+            Console.Clear();
+
+            Console.WriteLine("Informe o seu bairro");
+            bairro = Console.ReadLine();
+
+            Console.Clear();
+
+            Console.WriteLine("Informe a sua cidade");
+            cidade = Console.ReadLine();
+
+            Console.Clear();
+
+            Console.WriteLine("Informe o seu estado");
+            estado = Console.ReadLine();
+
+            Console.Clear();
+
+            Console.WriteLine("Informe o seu CEP");
+            cep = Console.ReadLine();
+
+            Console.Clear();
+
+            Endereco endereco = new Endereco(logradouro, numero, bairro, cidade, estado);
+
+            return endereco;
+        }
+        public Cliente CadastrarCliente()
+        {
+            String nomeCompleto, CPF;
 
             Console.WriteLine("Informe o seu nome");
             nomeCompleto = Console.ReadLine();
+
+            Console.Clear();
             do
             {
                 Console.WriteLine("Informe o seu CPF");
@@ -56,30 +107,16 @@ namespace ProjetoPooAdaBank.Contas
                 }
                 Console.WriteLine("CPF inválido, por favor digite novamente.");
             } while (true);
-            
 
-            Console.WriteLine("Informe a rua da sua residência");
-            rua = Console.ReadLine();
+            Console.Clear();
 
-            Console.WriteLine("Informe o nº de sua residência");
-            int.TryParse(Console.ReadLine(), out numero);
+            Endereco endereco = CadastrarEndereco();
 
-            Console.WriteLine("Informe o seu bairro");
-            bairro = Console.ReadLine();
+            Cliente cliente = new(nomeCompleto, CPF, endereco);
 
-            Console.WriteLine("Informe a sua cidade");
-            cidade = Console.ReadLine();
+            Console.WriteLine($"Nome: {cliente.Nome}, CPF: {cliente.Cpf}, rua: {cliente.Endereco.Rua} ");
 
-            Console.WriteLine("Informe o seu estado");
-            estado = Console.ReadLine();
-
-            Console.WriteLine("Informe o seu cep");
-            cep = Console.ReadLine();
-
-            Endereco endereco1 = new(rua,numero,bairro,cidade,estado);
-            Cliente c1 = new(nomeCompleto,CPF,endereco1);
-
-            Console.WriteLine($"Nome: {c1.Nome}, CPF: {c1.Cpf}, rua: {c1.Endereco.Rua} ");
+            return cliente;
         }
 
         public void AbrirConta()
@@ -87,17 +124,58 @@ namespace ProjetoPooAdaBank.Contas
             int tipoConta;
             Console.WriteLine("Que tipo de conta você deseja abrir?");
             Console.WriteLine("[1] - Poupança\n[2] - Salario\n[3] - Investimento");
+
             do
             {
                 int.TryParse(Console.ReadLine(), out tipoConta);
             } while (tipoConta < 1 || tipoConta > 3);
 
-            // criar métodos para construir as contas: poupança, salário e investimento.
+            Console.Clear();
 
-            //switch(tipoConta)
-            //{
-            //    case 1:
-            //}
+            // criar métodos para construir as contas: poupança, salário e investimento.
+            if (tipoConta == 2)
+            {
+                String cnpjEmpregador;
+                double salario;
+                bool converteu = false;
+
+                Random random = new Random();
+
+                Cliente cliente = CadastrarCliente();
+
+                Console.WriteLine("Informe o CNPJ do seu empregador");
+                cnpjEmpregador = Console.ReadLine();
+
+                Console.Clear();
+
+                Console.WriteLine("Informe o seu salário líquido");
+                while (!converteu)
+                {
+                    converteu = double.TryParse(Console.ReadLine(), out salario);
+
+                    if(!converteu)
+                    {
+                        Console.WriteLine("Digite um salário válido!");
+                    } 
+                    else
+                    {
+                        ContaSalario contaSalario = new ContaSalario(
+                            001, 
+                            random.Next(0, 9999), 
+                            cliente, 
+                            cnpjEmpregador, 
+                            salario);
+
+                        Console.Clear();
+
+                        Console.WriteLine("Conta Salário aberta com sucesso!");
+                        Console.WriteLine($"Agência: {contaSalario.NumeroAgencia}, " +
+                                            $"Conta: {contaSalario.NumeroConta}, " +
+                                            $"Titular: {contaSalario.Titular.Nome}, " +
+                                            $"Data de abertura: {contaSalario.DataAbertura}");
+                    }
+                }
+            }
         }
 
         public void LogarConta()

@@ -18,6 +18,7 @@ namespace ProjetoPooAdaBank.Contas
         public List<Transacao> Extrato { get; private set; }
         private double ValorTaxaManutencao { get; set; } 
         public static int ContasAbertas { get; private set; }
+        public DateTime DataAbertura { get; private set; }
         public Conta(int numeroAgencia, int numeroConta, Cliente titular)
         {
             NumeroAgencia = numeroAgencia;
@@ -25,20 +26,31 @@ namespace ProjetoPooAdaBank.Contas
             Titular = titular;
             Extrato = new List<Transacao>();
             ContasAbertas++;
+            DataAbertura = DateTime.Now;
         }
 
-        public void Depositar(double valor)
+        public void Depositar(double valor, bool transferir = false)
         {
             Saldo += valor;
-            Extrato.Add(new Transacao("Depósito", valor, Saldo));
+
+            if(transferir == false)
+            {
+                Extrato.Add(new Transacao("Depósito", valor, Saldo));
+            }
+            
         }
 
-        public bool Sacar(double valor)
+        public bool Sacar(double valor, bool transferir = false)
         {
             if (valor <= Saldo)
             {
                 Saldo -= valor;
-                Extrato.Add(new Transacao("Saque", valor, Saldo));
+
+                if(transferir == false)
+                {
+                   Extrato.Add(new Transacao("Saque", valor, Saldo));
+                }
+                
                 return true;
             }
             return false;
@@ -50,13 +62,13 @@ namespace ProjetoPooAdaBank.Contas
             if(this.TipoConta != destino.TipoConta)
             {
                 int taxa = 5;
-                Sacar(valor + taxa);
-                destino.Depositar(valor);
+                Sacar(valor + taxa, true);
+                destino.Depositar(valor, true);
             }
             else
             {
-                Sacar(valor);
-                destino.Depositar(valor);
+                Sacar(valor, true);
+                destino.Depositar(valor, true);
             }
             Extrato.Add(new Transacao("Transferência", valor, Saldo));
         }
