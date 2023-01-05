@@ -15,18 +15,42 @@ namespace ProjetoPooAdaBank.Contas
         public int NumeroConta { get; private set; }
         public Cliente Titular { get; set; }
         public double Saldo { get; protected set; }
+        public string Email { get; protected set; }
+        public string Senha { get; private set; }
         public List<Transacao> Extrato { get; private set; }
         private double ValorTaxaManutencao { get; set; }
         public static int ContasAbertas { get; private set; }
         public DateTime DataAbertura { get; private set; }
-        public Conta(int numeroAgencia, int numeroConta, Cliente titular)
+
+        public static List<Conta> ContasCriadas = new List<Conta>();
+
+        public Conta(int numeroAgencia, int numeroConta, string email, string senha, Cliente titular)
         {
             NumeroAgencia = numeroAgencia;
             NumeroConta = numeroConta;
+            Email = email;
+            Senha = senha;
             Titular = titular;
             Extrato = new List<Transacao>();
             ContasAbertas++;
             DataAbertura = DateTime.Now;
+
+            ContasCriadas.Add(this);
+        }
+
+        public static (Conta, bool) Logar(string email, string senha)
+        {
+            foreach(Conta conta in ContasCriadas)
+            {
+                if(conta.Email == email && conta.Senha == senha)
+                {
+                    Console.WriteLine($"Seja bem vindo/a {conta.Titular.Nome}");
+                    return (conta, true);
+                }
+            }
+
+            Console.WriteLine("Email ou senha incorretos");
+            return (null, false);
         }
 
         public void Depositar(double valor, bool transferir = false)
@@ -35,9 +59,10 @@ namespace ProjetoPooAdaBank.Contas
 
             if (transferir == false)
             {
+                Console.WriteLine("Deposito realizado com sucesso!");
                 Extrato.Add(new Transacao("Depósito", valor, Saldo));
             }
-
+            
         }
 
         public bool Sacar(double valor, bool transferir = false)
@@ -48,29 +73,47 @@ namespace ProjetoPooAdaBank.Contas
 
                 if (transferir == false)
                 {
+                    Console.WriteLine("Saque realizado com sucesso!");
                     Extrato.Add(new Transacao("Saque", valor, Saldo));
                 }
 
                 return true;
             }
+
+            Console.WriteLine("Operação não realizada! Valor informado é maior que o saldo em conta.");
             return false;
         }
 
         // VALIDAR UMA FORMA DE REUTILIZAR OS MÉTODOS DEPOSITAR + SACAR, SE NÃO, REESCREVE-LO.
-        public void Transferir(double valor, Conta destino)
+        public void Transferir(double valor, string cpf)
         {
-            if (this.TipoConta != destino.TipoConta)
+            foreach(Conta conta in Conta.ContasCriadas)
             {
-                int taxa = 5;
-                Sacar(valor + taxa, true);
-                destino.Depositar(valor, true);
+                if (conta.Titular.Cpf == cpf && this.TipoConta != conta.TipoConta)
+                {
+                    int taxa = 5;
+                    Sacar(valor + taxa, true);
+                    conta.Depositar(valor, true);
+
+                    Console.WriteLine("Tranferência realizada com sucesso!");
+
+                    Extrato.Add(new Transacao("Transferência", valor, Saldo));
+                    return;
+                } 
+                else if(conta.Titular.Cpf == cpf && this.TipoConta == conta.TipoConta)
+                {
+                    Console.Write(conta.Titular.Cpf);
+                    Sacar(valor, true);
+                    conta.Depositar(valor, true);
+
+                    Console.WriteLine("Tranferência realizada com sucesso!");
+
+                    Extrato.Add(new Transacao("Transferência", valor, Saldo));
+                    return;
+                }
             }
-            else
-            {
-                Sacar(valor, true);
-                destino.Depositar(valor, true);
-            }
-            Extrato.Add(new Transacao("Transferência", valor, Saldo));
+
+            Console.WriteLine("Conta destino não encontrada!");
         }
 
         public virtual double CalcularValorTarifaManutencao()
