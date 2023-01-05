@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 using ProjetoPooAdaBank.Clientes;
@@ -15,18 +16,42 @@ namespace ProjetoPooAdaBank.Contas
         public int NumeroConta { get; private set; }
         public Cliente Titular { get; set; }
         public double Saldo { get; protected set; }
+        public string Email { get; protected set; }
+        public string Senha { get; private set; }
         public List<Transacao> Extrato { get; private set; }
         private double ValorTaxaManutencao { get; set; } 
         public static int ContasAbertas { get; private set; }
         public DateTime DataAbertura { get; private set; }
-        public Conta(int numeroAgencia, int numeroConta, Cliente titular)
+
+        public static List<Conta> ContasCriadas = new List<Conta>();
+
+        public Conta(int numeroAgencia, int numeroConta, string email, string senha, Cliente titular)
         {
             NumeroAgencia = numeroAgencia;
             NumeroConta = numeroConta;
+            Email = email;
+            Senha = senha;
             Titular = titular;
             Extrato = new List<Transacao>();
             ContasAbertas++;
             DataAbertura = DateTime.Now;
+
+            ContasCriadas.Add(this);
+        }
+
+        public static bool Logar(string email, string senha)
+        {
+            foreach(Conta conta in ContasCriadas)
+            {
+                if(conta.Email == email && conta.Senha == senha)
+                {
+                    Console.WriteLine($"Seja bem vindo/a {conta.Titular.Nome}");
+                    return true;
+                }
+            }
+
+            Console.WriteLine("Email ou senha incorretos");
+            return false;
         }
 
         public void Depositar(double valor, bool transferir = false)
@@ -37,7 +62,6 @@ namespace ProjetoPooAdaBank.Contas
             {
                 Extrato.Add(new Transacao("Depósito", valor, Saldo));
             }
-            
         }
 
         public bool Sacar(double valor, bool transferir = false)

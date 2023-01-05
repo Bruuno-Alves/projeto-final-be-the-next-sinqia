@@ -25,11 +25,46 @@ namespace ProjetoPooAdaBank.Contas
 
             if (input == 1)
             {
-                AbrirConta();
+                Conta conta = AbrirConta();
             }
-            else
+            else if (input == 2)
             {
-                LogarConta();
+                String email, senha;
+                bool logou = false;
+                int tentativas = 3;
+
+                do
+                {
+                    Console.WriteLine("Digite o seu email");
+                    email = Console.ReadLine();
+
+                    Console.Clear();
+
+                    Console.WriteLine("Digite o a sua senha");
+                    senha = Console.ReadLine();
+
+                    Console.Clear();
+
+                    logou = Conta.Logar(email, senha);
+
+                    if(logou)
+                    {
+                        break;
+                    }
+                    else
+                    {
+                        tentativas--;
+                        if(tentativas == 0)
+                        {
+                            Console.Clear();
+
+                            Console.WriteLine("Conta bloqueada por excesso de tentativas!");
+                        }
+                        Console.WriteLine($"Tentativas restantes {tentativas}");
+
+                        Console.WriteLine();
+                    }
+                } while(tentativas > 0);
             }
         }
         public void MensagemInicial()
@@ -119,7 +154,7 @@ namespace ProjetoPooAdaBank.Contas
             return cliente;
         }
 
-        public void AbrirConta()
+        public Conta AbrirConta()
         {
             int tipoConta;
             Console.WriteLine("Que tipo de conta você deseja abrir?");
@@ -135,13 +170,13 @@ namespace ProjetoPooAdaBank.Contas
             // criar métodos para construir as contas: poupança, salário e investimento.
             if (tipoConta == 2)
             {
-                String cnpjEmpregador;
+                String email, senha, cnpjEmpregador;
                 double salario;
                 bool converteu = false;
 
                 Random random = new Random();
 
-                Cliente cliente = CadastrarCliente();
+                Cliente clienteCadastrado = CadastrarCliente();
 
                 Console.WriteLine("Informe o CNPJ do seu empregador");
                 cnpjEmpregador = Console.ReadLine();
@@ -149,38 +184,50 @@ namespace ProjetoPooAdaBank.Contas
                 Console.Clear();
 
                 Console.WriteLine("Informe o seu salário líquido");
-                while (!converteu)
+                do
                 {
                     converteu = double.TryParse(Console.ReadLine(), out salario);
 
-                    if(!converteu)
+                    if (!converteu)
                     {
                         Console.WriteLine("Digite um salário válido!");
-                    } 
-                    else
-                    {
-                        ContaSalario contaSalario = new ContaSalario(
-                            001, 
-                            random.Next(0, 9999), 
-                            cliente, 
-                            cnpjEmpregador, 
-                            salario);
-
-                        Console.Clear();
-
-                        Console.WriteLine("Conta Salário aberta com sucesso!");
-                        Console.WriteLine($"Agência: {contaSalario.NumeroAgencia}, " +
-                                            $"Conta: {contaSalario.NumeroConta}, " +
-                                            $"Titular: {contaSalario.Titular.Nome}, " +
-                                            $"Data de abertura: {contaSalario.DataAbertura}");
                     }
-                }
-            }
-        }
+                } while (!converteu);
 
-        public void LogarConta()
-        {
-            // criar login e senha ao final do processo de abertura da conta.
+                Console.Clear();
+
+                Console.WriteLine("Informe o seu Email");
+                email = Console.ReadLine();
+
+                Console.Clear();
+
+                Console.WriteLine("Crie uma senha");
+                senha = Console.ReadLine();
+
+                ContaSalario contaSalario = new ContaSalario(
+                    001,
+                    random.Next(0, 9999),
+                    email,
+                    senha,
+                    clienteCadastrado,
+                    cnpjEmpregador,
+                    salario);
+
+                Console.Clear();
+
+                Console.WriteLine("Conta Salário aberta com sucesso!");
+                Console.WriteLine($"Agência: {contaSalario.NumeroAgencia}, " +
+                                    $"Conta: {contaSalario.NumeroConta}, " +
+                                    $"Titular: {contaSalario.Titular.Nome}, " +
+                                    $"Data de abertura: {contaSalario.DataAbertura}");
+
+                return contaSalario;
+            }
+
+            Endereco endereco = new Endereco("", 0, "", "", "");
+            Cliente cliente = new Cliente("", "", endereco);
+            ContaSalario conta = new ContaSalario(00, 00, "", "", cliente, "", 0);
+            return conta;
         }
 }
 }

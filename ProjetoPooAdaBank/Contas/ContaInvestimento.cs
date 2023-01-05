@@ -7,7 +7,12 @@ namespace ProjetoPooAdaBank.Contas
 	{
 		public string PerfilInvestidor { get; private set; }
 
-        public ContaInvestimento(int numeroAgencia, int numeroConta, Cliente titular) : base(numeroAgencia,numeroConta,titular)
+        public ContaInvestimento(
+            int numeroAgencia, 
+            int numeroConta,
+            string email,
+            string senha,
+            Cliente titular) : base(numeroAgencia,numeroConta, email, senha, titular)
 		{
 			 PerfilInvestidor = AvaliaPerfil();
         }
