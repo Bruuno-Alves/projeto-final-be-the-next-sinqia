@@ -331,6 +331,7 @@ namespace ProjetoPooAdaBank.Contas
 
                 ContaInvestimento ContaInvestimento = new(random.Next(0,9999),email,senha,clienteCadastrado);
 
+                return ContaInvestimento;
             }
 
             return null;
