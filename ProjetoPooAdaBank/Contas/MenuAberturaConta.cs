@@ -1,10 +1,5 @@
 ﻿using ConsoleApp;
 using ProjetoPooAdaBank.Clientes;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ProjetoPooAdaBank.Contas
 {
@@ -30,8 +25,9 @@ namespace ProjetoPooAdaBank.Contas
             else if (input == 2)
             {
                 String email, senha;
-                bool logou = false;
+                bool logou = false, converteu = false;
                 int tentativas = 3;
+                int operacao;
 
                 do
                 {
@@ -45,10 +41,50 @@ namespace ProjetoPooAdaBank.Contas
 
                     Console.Clear();
 
-                    logou = Conta.Logar(email, senha);
+                    (Conta conta, logou) = Conta.Logar(email, senha);
 
                     if(logou)
                     {
+                        Console.WriteLine($"Olá {conta.Titular.Nome}, que tipo de operação deseja fazer hoje?\n " +
+                            $"[1] Saque\n [2] Visualizar Extrato\n [3] Deposito\n [4] Transferência\n" +
+                            $" [5] Consulta de saldo ");
+
+                        do
+                        {
+                            converteu = int.TryParse(Console.ReadLine(), out operacao);
+                            if (!converteu) Console.WriteLine("Escolha uma opção válida!");
+
+                            else
+                            {
+                                bool fazerOutraOperacao = false;
+                                string resposta;
+                                FazerOperacao(conta, operacao);
+
+                                while(true)
+                                {
+                                    Console.WriteLine("Deseja fazer outra operação? (sim/nao)");
+                                    resposta = Console.ReadLine();
+
+                                    if (resposta.ToLower() != "sim")
+                                    {
+                                        Console.WriteLine("Até logo e tenha um ótimo dia!");
+                                        break;
+                                    }
+                                    Console.Clear();
+
+                                    Console.WriteLine($"Olá {conta.Titular.Nome}, que tipo de operação deseja fazer hoje?\n " +
+                            $"[1] Saque\n [2] Visualizar Extrato\n [3] Deposito\n [4] Transferência\n" +
+                            $" [5] Consulta de saldo ");
+
+                                    converteu = int.TryParse(Console.ReadLine(), out operacao);
+                                    if (!converteu) Console.WriteLine("Opção inválida, até logo!");
+
+                                    FazerOperacao(conta, operacao);
+                                } 
+                                
+                            }
+                        } while (!converteu);
+                       
                         break;
                     }
                     else
@@ -224,10 +260,58 @@ namespace ProjetoPooAdaBank.Contas
                 return contaSalario;
             }
 
-            Endereco endereco = new Endereco("", 0, "", "", "");
-            Cliente cliente = new Cliente("", "", endereco);
-            ContaSalario conta = new ContaSalario(00, 00, "", "", cliente, "", 0);
-            return conta;
+            return null;
         }
-}
+
+        public void FazerOperacao(Conta conta, int operacao)
+        {
+            double valor;
+            bool sucedido = false;
+            String cpf;
+
+            if (operacao == 1)
+            {
+                Console.WriteLine("Digite o valor a ser sacado");
+                sucedido = double.TryParse(Console.ReadLine(), out valor);
+
+                if (sucedido)
+                {
+                    conta.Sacar(valor);
+                }
+            }
+            else if (operacao == 2)
+            {
+                conta.MostrarExtrato();
+            }
+            else if (operacao == 3)
+            {
+                Console.WriteLine("Digite o valor a ser depositado");
+                sucedido = double.TryParse(Console.ReadLine(), out valor);
+
+                if (sucedido)
+                {
+                    conta.Depositar(valor);
+
+                }
+            }
+            else if (operacao == 4)
+            {
+                Console.WriteLine("Digite o valor a ser tranferido");
+                sucedido = double.TryParse(Console.ReadLine(), out valor);
+
+                Console.WriteLine("Digite o CPF do titular da conta para qual deseja transferir");
+                cpf = Console.ReadLine();
+
+                conta.Transferir(valor, cpf);
+            }
+            else if (operacao == 5)
+            {
+                Console.WriteLine($"O seu saldo atual é de R${conta.Saldo}");
+            }
+            else
+            {
+                Console.WriteLine("Digite um valor válido ou pressione 'E' para sair");
+            }
+        }
+    }
 }

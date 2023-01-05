@@ -11,16 +11,18 @@ namespace ProjetoPooAdaBank.Contas
         string Tipo { get; set; }
         public double Valor { get; set; }
         public double NovoSaldo { get; set;}
+        public DateTime DataEHoraDaTransacao { get; private set; }
         public Transacao(string tipo, double valor, double novoSaldo)
         {
             Tipo = tipo;
             Valor = valor;
             NovoSaldo = novoSaldo;
+            DataEHoraDaTransacao = DateTime.Now;
         }
 
         public override string ToString()
         {
-            return $"Transação: {Tipo} - Valor: {Valor} - Saldo Atual {NovoSaldo}";
+            return $"Transação: {Tipo}\n - Valor: {Valor}\n - Saldo Atual {NovoSaldo}\n - Data {DataEHoraDaTransacao}";
         }
     }
 

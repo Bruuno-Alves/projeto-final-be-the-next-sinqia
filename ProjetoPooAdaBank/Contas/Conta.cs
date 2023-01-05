@@ -39,19 +39,19 @@ namespace ProjetoPooAdaBank.Contas
             ContasCriadas.Add(this);
         }
 
-        public static bool Logar(string email, string senha)
+        public static (Conta, bool) Logar(string email, string senha)
         {
             foreach(Conta conta in ContasCriadas)
             {
                 if(conta.Email == email && conta.Senha == senha)
                 {
                     Console.WriteLine($"Seja bem vindo/a {conta.Titular.Nome}");
-                    return true;
+                    return (conta, true);
                 }
             }
 
             Console.WriteLine("Email ou senha incorretos");
-            return false;
+            return (null, false);
         }
 
         public void Depositar(double valor, bool transferir = false)
@@ -60,8 +60,11 @@ namespace ProjetoPooAdaBank.Contas
 
             if(transferir == false)
             {
+                Console.WriteLine("Deposito realizado com sucesso!");
                 Extrato.Add(new Transacao("Depósito", valor, Saldo));
             }
+
+            
         }
 
         public bool Sacar(double valor, bool transferir = false)
@@ -72,29 +75,47 @@ namespace ProjetoPooAdaBank.Contas
 
                 if(transferir == false)
                 {
-                   Extrato.Add(new Transacao("Saque", valor, Saldo));
+                    Console.WriteLine("Saque realizado com sucesso!");
+                    Extrato.Add(new Transacao("Saque", valor, Saldo));
                 }
-                
+
                 return true;
             }
+
+            Console.WriteLine("Operação não realizada! Valor informado é maior que o saldo em conta.");
             return false;
         }
 
         // VALIDAR UMA FORMA DE REUTILIZAR OS MÉTODOS DEPOSITAR + SACAR, SE NÃO, REESCREVE-LO.
-        public void Transferir(double valor, Conta destino)
+        public void Transferir(double valor, string cpf)
         {
-            if(this.TipoConta != destino.TipoConta)
+            foreach(Conta conta in Conta.ContasCriadas)
             {
-                int taxa = 5;
-                Sacar(valor + taxa, true);
-                destino.Depositar(valor, true);
+                if (conta.Titular.Cpf == cpf && this.TipoConta != conta.TipoConta)
+                {
+                    int taxa = 5;
+                    Sacar(valor + taxa, true);
+                    conta.Depositar(valor, true);
+
+                    Console.WriteLine("Tranferência realizada com sucesso!");
+
+                    Extrato.Add(new Transacao("Transferência", valor, Saldo));
+                    return;
+                } 
+                else if(conta.Titular.Cpf == cpf && this.TipoConta == conta.TipoConta)
+                {
+                    Console.Write(conta.Titular.Cpf);
+                    Sacar(valor, true);
+                    conta.Depositar(valor, true);
+
+                    Console.WriteLine("Tranferência realizada com sucesso!");
+
+                    Extrato.Add(new Transacao("Transferência", valor, Saldo));
+                    return;
+                }
             }
-            else
-            {
-                Sacar(valor, true);
-                destino.Depositar(valor, true);
-            }
-            Extrato.Add(new Transacao("Transferência", valor, Saldo));
+
+            Console.WriteLine("Conta destino não encontrada!");
         }
 
         public virtual double CalcularValorTarifaManutencao()
