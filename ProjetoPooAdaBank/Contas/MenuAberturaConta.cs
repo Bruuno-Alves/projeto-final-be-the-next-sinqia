@@ -22,6 +22,8 @@ namespace ProjetoPooAdaBank.Contas
             if (input == 1)
             {
                 Conta conta = AbrirConta();
+                Console.WriteLine();
+                Menu();
             }
             else if (input == 2)
             {
@@ -277,16 +279,16 @@ namespace ProjetoPooAdaBank.Contas
 
                 Console.Clear();
 
-                Console.WriteLine("Informe o saldo inicial");
+                Console.WriteLine("Deposite ao menos R$ 50,00 de saldo inicial");
                 do
                 {
                     converteu = double.TryParse(Console.ReadLine(), out valorInicial);
 
-                    if (valorInicial <= 50)
+                    if (valorInicial < 50)
                     {
-                        Console.WriteLine("O saldo inicial deve ser estar de R$ 50,00");
+                        Console.WriteLine("O saldo inicial deve ser maior ou igual R$ 50,00");
                     }
-                } while (valorInicial <= 50);
+                } while (valorInicial < 50);
 
                 ContaPoupanca contaPoupanca = new ContaPoupanca(
                     random.Next(0, 9999),
