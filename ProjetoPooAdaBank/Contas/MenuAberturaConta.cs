@@ -299,7 +299,7 @@ namespace ProjetoPooAdaBank.Contas
 
                 Console.Clear();
 
-                Console.WriteLine("Conta Salário aberta com sucesso!");
+                Console.WriteLine("Conta Poupança aberta com sucesso!");
                 Console.WriteLine($"Agência: {contaPoupanca.NumeroAgencia}, " +
                                     $"Conta: {contaPoupanca.NumeroConta}, " +
                                     $"Titular: {contaPoupanca.Titular.Nome}, " +
@@ -355,9 +355,18 @@ namespace ProjetoPooAdaBank.Contas
                 Console.WriteLine("Crie uma senha");
                 senha = Console.ReadLine();
 
-                ContaInvestimento ContaInvestimento = new(random.Next(0,9999),email,senha,clienteCadastrado);
+                ContaInvestimento contaInvestimento = new(random.Next(0,9999),email,senha,clienteCadastrado);
+                Console.Clear();
 
-                return ContaInvestimento;
+
+                Console.WriteLine("Conta Investimento aberta com sucesso!");
+                Console.WriteLine($"Agência: {contaInvestimento.NumeroAgencia}, " +
+                                    $"Conta: {contaInvestimento.NumeroConta}, " +
+                                    $"Titular: {contaInvestimento.Titular.Nome}, " +
+                                    $"Data de abertura: {contaInvestimento.DataAbertura}\n" +
+                                    $"Perfil De Investidor: {contaInvestimento.PerfilInvestidor} ");
+
+                return contaInvestimento;
             }
 
             return null;
@@ -370,6 +379,7 @@ namespace ProjetoPooAdaBank.Contas
             double valor;
             bool sucedido = false;
             String cpf;
+            int numeroConta;
 
             if (operacao == 1)
             {
@@ -404,7 +414,10 @@ namespace ProjetoPooAdaBank.Contas
                 Console.WriteLine("Digite o CPF do titular da conta para qual deseja transferir");
                 cpf = Console.ReadLine();
 
-                conta.Transferir(valor, cpf);
+                Console.WriteLine("Digite o nº da conta para qual deseja transferir");
+                int.TryParse(Console.ReadLine(), out numeroConta);
+
+                conta.Transferir(valor, cpf,numeroConta);
             }
             else if (operacao == 5)
             {

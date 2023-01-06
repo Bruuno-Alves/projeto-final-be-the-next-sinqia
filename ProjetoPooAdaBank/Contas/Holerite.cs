@@ -32,7 +32,6 @@ namespace ProjetoPooAdaBank.Contas
                 return true;
             }
             return false;
-
         }
     }
 }

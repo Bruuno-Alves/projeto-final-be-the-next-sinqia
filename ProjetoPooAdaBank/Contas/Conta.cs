@@ -76,34 +76,37 @@ namespace ProjetoPooAdaBank.Contas
                 if (transferir == false)
                 {
                     Saldo -= tarifa;
+                    Console.WriteLine($"aplicada taxa no valor de {tarifa.ToString("C")}");
                     Console.WriteLine("Saque realizado com sucesso!");
-                    Extrato.Add(new Transacao("Saque", valor, Saldo));
+                    Extrato.Add(new Transacao("Saque", valor,tarifa, Saldo));
                 }
 
                 return true;
             }
 
-            Console.WriteLine("Operação não realizada! Valor informado é maior que o saldo em conta.");
+            Console.WriteLine($"Operação não realizada! Valor total de {(valor + tarifa).ToString("C")} é maior que o saldo em conta.");
             return false;
         }
 
         // VALIDAR UMA FORMA DE REUTILIZAR OS MÉTODOS DEPOSITAR + SACAR, SE NÃO, REESCREVE-LO.
-        public void Transferir(double valor, string cpf)
+        public void Transferir(double valor, string cpf, int numeroConta)
         {
             foreach (Conta conta in Conta.ContasCriadas)
             {
-                if (conta.Titular.Cpf == cpf && this.TipoConta != conta.TipoConta)
+                if (conta.Titular.Cpf == cpf && this.TipoConta != conta.TipoConta && conta.NumeroConta == numeroConta)
                 {
+
                     int taxa = 5;
+
                     Sacar(valor + taxa, true);
                     conta.Depositar(valor, true);
-
+                    Console.WriteLine($"Para contas de titularidades diferentes há uma taxa de {taxa}R$");
                     Console.WriteLine("Tranferência realizada com sucesso!");
 
-                    Extrato.Add(new Transacao("Transferência", valor, Saldo));
+                    Extrato.Add(new Transacao("Transferência", valor,taxa, Saldo));
                     return;
                 }
-                else if (conta.Titular.Cpf == cpf && this.TipoConta == conta.TipoConta)
+                else if (conta.Titular.Cpf == cpf && this.TipoConta == conta.TipoConta && numeroConta == conta.NumeroConta)
                 {
                     Console.Write(conta.Titular.Cpf);
                     Sacar(valor, true);

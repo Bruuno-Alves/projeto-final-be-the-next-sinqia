@@ -39,16 +39,7 @@ namespace ProjetoPooAdaBank.Contas
             return tarifa;
         }
 
-        public static bool ValidarDataHolerite(DateTime dataHolerite) {
-
-            DateTime dataAtual = DateTime.Today;
-            TimeSpan diferenca = dataAtual.Subtract(dataHolerite);
-            if (diferenca.TotalDays <= 90) {
-                return true;
-            }
-            return false;
-
-        }
+      
 
     }
 }

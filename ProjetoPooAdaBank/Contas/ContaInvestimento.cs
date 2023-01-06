@@ -5,7 +5,7 @@ namespace ProjetoPooAdaBank.Contas
 {
 	public class ContaInvestimento : Conta
 	{
-		public string PerfilInvestidor { get; private set; }
+		public string PerfilInvestidor { get;private set; }
 
         public ContaInvestimento(
             int numeroConta,
@@ -23,7 +23,6 @@ namespace ProjetoPooAdaBank.Contas
         {
             this.TipoConta = 3;
             PerfilInvestidor = AvaliaPerfil();
-
         }
 
         public void Investir()
