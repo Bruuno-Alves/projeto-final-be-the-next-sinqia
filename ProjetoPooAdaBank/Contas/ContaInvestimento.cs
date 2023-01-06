@@ -267,7 +267,7 @@ namespace ProjetoPooAdaBank.Contas
             return perfil;
         }
 
-        public override double CalcularValorTarifaManutencao()
+        public override double CalcularValorTarifaManutencao(double valor)
         {
             double tarifa = Saldo * 0.008;
             return tarifa;

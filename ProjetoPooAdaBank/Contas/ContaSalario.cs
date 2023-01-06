@@ -10,18 +10,17 @@ namespace ProjetoPooAdaBank.Contas
 {
     public class ContaSalario : Conta
     {
-        public Holerite Holerite { get; }
+        public Holerite Holerite { get; private set; }
 
         public ContaSalario(
             int numeroConta,
             string email,
             string senha,
             Cliente titular,
-            string cnpjEmpregador,
-            double salarioLiquido) : base(numeroConta, email, senha, titular)
+            Holerite holerite) : base(numeroConta, email, senha, titular)
         {
             this.TipoConta = 2;
-            Holerite = new Holerite(cnpjEmpregador, salarioLiquido);
+            Holerite = holerite;
         }
 
         public void DepositarSalario(double valor, string cnpjEmpregador)
@@ -33,11 +32,23 @@ namespace ProjetoPooAdaBank.Contas
             }
         }
 
-        public override double CalcularValorTarifaManutencao()
+        public override double CalcularValorTarifaManutencao(double valor)
         {
             double tarifa = Saldo * 0.003;
 
             return tarifa;
         }
+
+        public static bool ValidarDataHolerite(DateTime dataHolerite) {
+
+            DateTime dataAtual = DateTime.Today;
+            TimeSpan diferenca = dataAtual.Subtract(dataHolerite);
+            if (diferenca.TotalDays <= 90) {
+                return true;
+            }
+            return false;
+
+        }
+
     }
 }

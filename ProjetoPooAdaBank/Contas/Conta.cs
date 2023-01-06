@@ -67,12 +67,15 @@ namespace ProjetoPooAdaBank.Contas
 
         public bool Sacar(double valor, bool transferir = false)
         {
-            if (valor <= Saldo)
+            double tarifa = CalcularValorTarifaManutencao(valor);
+
+            if (valor + tarifa <= Saldo)
             {
                 Saldo -= valor;
 
                 if (transferir == false)
                 {
+                    Saldo -= tarifa;
                     Console.WriteLine("Saque realizado com sucesso!");
                     Extrato.Add(new Transacao("Saque", valor, Saldo));
                 }
@@ -117,10 +120,10 @@ namespace ProjetoPooAdaBank.Contas
         }
 
         // alterar pra ser usado dentro do saque, baseado no valor a ser sacado e não no saldo da conta.
-        public virtual double CalcularValorTarifaManutencao()
+        public virtual double CalcularValorTarifaManutencao(double valor)
         {
 
-            return Saldo * ValorTaxaManutencao;
+            return valor * ValorTaxaManutencao;
         }
 
         public void MostrarExtrato()

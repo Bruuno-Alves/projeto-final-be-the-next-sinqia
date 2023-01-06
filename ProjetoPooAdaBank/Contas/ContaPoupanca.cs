@@ -56,7 +56,7 @@ namespace ProjetoPooAdaBank.Contas
             return false;
         }
         // reajuste no valor da tarifa.
-        public override double CalcularValorTarifaManutencao()
+        public override double CalcularValorTarifaManutencao(double valor)
         {
             double tarifa = Saldo * 0.0035;
             return tarifa;
