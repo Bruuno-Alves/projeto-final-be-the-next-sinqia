@@ -10,7 +10,6 @@ namespace ProjetoPooAdaBank.Contas
     {
         public string CnpjEmpregador { get; private set; }
         public double SalarioLiquido { get; private set; }
-
         public DateTime DataHolerite { get; private set; }
         // Sugestão:
         // adicionar uma propertie data do holerite,

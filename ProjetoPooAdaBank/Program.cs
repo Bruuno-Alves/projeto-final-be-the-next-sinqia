@@ -21,7 +21,7 @@ namespace ProjetoPooAdaBank
             //contas do Jonas
 
             ContaSalario contaSalario = new ContaSalario(1234,
-                                                        "jonas@gmail.com", 
+                                                        "jonas@gmail.com",
                                                         "123456", 
                                                         cliente,
                                                         holerite);

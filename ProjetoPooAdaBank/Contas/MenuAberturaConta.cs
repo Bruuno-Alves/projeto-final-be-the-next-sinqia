@@ -263,49 +263,7 @@ namespace ProjetoPooAdaBank.Contas
             // criar métodos para construir as contas: poupança, salário e investimento.
             if(tipoConta ==1)
             {
-                String email, senha;
-                double valorInicial;
-                bool converteu = false;
-
-                Random random = new Random();
-
-                Console.WriteLine("Informe o seu Email");
-                email = Console.ReadLine();
-
-                Console.Clear();
-
-                Console.WriteLine("Crie uma senha");
-                senha = Console.ReadLine();
-
-                Console.Clear();
-
-                Console.WriteLine("Deposite ao menos R$ 50,00 de saldo inicial");
-                do
-                {
-                    converteu = double.TryParse(Console.ReadLine(), out valorInicial);
-
-                    if (valorInicial < 50)
-                    {
-                        Console.WriteLine("O saldo inicial deve ser maior ou igual R$ 50,00");
-                    }
-                } while (valorInicial < 50);
-
-                ContaPoupanca contaPoupanca = new ContaPoupanca(
-                    random.Next(0, 9999),
-                    email,
-                    senha,
-                    clienteCadastrado,
-                    valorInicial);
-
-                Console.Clear();
-
-                Console.WriteLine("Conta Poupança aberta com sucesso!");
-                Console.WriteLine($"Agência: {contaPoupanca.NumeroAgencia}, " +
-                                    $"Conta: {contaPoupanca.NumeroConta}, " +
-                                    $"Titular: {contaPoupanca.Titular.Nome}, " +
-                                    $"Data de abertura: {contaPoupanca.DataAbertura}");
-
-                return contaPoupanca;
+                return ContaCorrente.;
 
             }
             

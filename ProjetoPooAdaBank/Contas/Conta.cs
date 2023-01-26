@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
@@ -137,5 +138,27 @@ namespace ProjetoPooAdaBank.Contas
             }
 
         }
+
+        public static Tuple<string,string> LoginSenha()
+        {
+            string email, senha;
+            double valorInicial;
+            bool converteu = false;
+
+            Random random = new Random();
+
+            Console.WriteLine("Informe o seu Email");
+            email = Console.ReadLine();
+
+            Console.Clear();
+
+            Console.WriteLine("Crie uma senha");
+            senha = Console.ReadLine();
+
+            Console.Clear();
+            return Tuple.Create(email,senha);
+        }
+
+        public abstract Conta CriarConta(Cliente clienteCadastrado);
     }
 }
