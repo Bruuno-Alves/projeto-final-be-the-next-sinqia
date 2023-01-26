@@ -8,24 +8,19 @@
     "net6.0": []
   },
   "packageFolders": {
-    "C:\\Users\\Richard\\.nuget\\packages\\": {},
-    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
+    "C:\\Users\\Usuario\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Richard\\source\\repos\\projeto-final-be-the-next-sinqia\\ProjetoPooAdaBank\\ProjetoPooAdaBank.csproj",
+      "projectUniqueName": "C:\\Users\\Usuario\\source\\repos\\projeto-final-be-the-next-sinqia\\ProjetoPooAdaBank\\ProjetoPooAdaBank.csproj",
       "projectName": "ProjetoPooAdaBank",
-      "projectPath": "C:\\Users\\Richard\\source\\repos\\projeto-final-be-the-next-sinqia\\ProjetoPooAdaBank\\ProjetoPooAdaBank.csproj",
-      "packagesPath": "C:\\Users\\Richard\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Richard\\source\\repos\\projeto-final-be-the-next-sinqia\\ProjetoPooAdaBank\\obj\\",
+      "projectPath": "C:\\Users\\Usuario\\source\\repos\\projeto-final-be-the-next-sinqia\\ProjetoPooAdaBank\\ProjetoPooAdaBank.csproj",
+      "packagesPath": "C:\\Users\\Usuario\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\Usuario\\source\\repos\\projeto-final-be-the-next-sinqia\\ProjetoPooAdaBank\\obj\\",
       "projectStyle": "PackageReference",
-      "fallbackFolders": [
-        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-      ],
       "configFilePaths": [
-        "C:\\Users\\Richard\\AppData\\Roaming\\NuGet\\NuGet.Config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+        "C:\\Users\\Usuario\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -66,7 +61,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.101\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.100\\RuntimeIdentifierGraph.json"
       }
     }
   }

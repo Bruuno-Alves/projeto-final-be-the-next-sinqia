@@ -39,7 +39,38 @@ namespace ProjetoPooAdaBank.Contas
             return tarifa;
         }
 
-      
+        public static ContaSalario CriarConta(Cliente clienteCadastrado)
+        {
+            String email, senha;
+            Holerite holerite = Holerite.CadastrarHolerite();
 
+            Random random = new Random();
+
+            Console.WriteLine("Informe o seu Email");
+            email = Console.ReadLine();
+
+            Console.Clear();
+
+            Console.WriteLine("Crie uma senha");
+            senha = Console.ReadLine();
+
+            ContaSalario contaSalario = new ContaSalario(
+                random.Next(0, 9999),
+                email,
+                senha,
+                clienteCadastrado,
+                holerite);
+
+
+            Console.Clear();
+
+            Console.WriteLine("Conta Salário aberta com sucesso!");
+            Console.WriteLine($"Agência: {contaSalario.NumeroAgencia}, " +
+                                $"Conta: {contaSalario.NumeroConta}, " +
+                                $"Titular: {contaSalario.Titular.Nome}, " +
+                                $"Data de abertura: {contaSalario.DataAbertura}");
+
+            return contaSalario;
+        }
     }
 }

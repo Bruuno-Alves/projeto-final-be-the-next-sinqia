@@ -38,7 +38,7 @@ namespace ProjetoPooAdaBank.Contas
             return tarifa;
         }
 
-        public override static Conta CriarConta(Cliente clienteCadastrado)
+        public static ContaPoupanca CriarConta(Cliente clienteCadastrado)
         {
             var (email, senha) = LoginSenha();
             double valorInicial;
