@@ -1,12 +1,9 @@
 ﻿using ProjetoPooAdaBank.Clientes;
-using ProjetoPooAdaBank.Log;
 using System;
-using System.Text.Json.Serialization;
 
 namespace ProjetoPooAdaBank.Contas
 {
-    [JsonConverter(typeof(Json))]
-    public class ContaInvestimento : Conta
+	public class ContaInvestimento : Conta
 	{
 		public string PerfilInvestidor { get;private set; }
 
@@ -16,7 +13,7 @@ namespace ProjetoPooAdaBank.Contas
             string senha,
             Cliente titular, bool ignoraPerfil) : base(numeroConta, email, senha, titular)
 		{
-            TipoConta = "ContaInvestimento";
+            this.TipoConta = 3;
         }
         public ContaInvestimento(
             int numeroConta,
@@ -24,7 +21,7 @@ namespace ProjetoPooAdaBank.Contas
             string senha,
             Cliente titular) : base(numeroConta, email, senha, titular)
         {
-            TipoConta = "ContaInvestimento";
+            this.TipoConta = 3;
             PerfilInvestidor = AvaliaPerfil();
         }
 

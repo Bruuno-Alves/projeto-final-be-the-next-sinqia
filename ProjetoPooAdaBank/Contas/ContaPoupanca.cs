@@ -3,14 +3,11 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Text;
-using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using ProjetoPooAdaBank.Clientes;
-using ProjetoPooAdaBank.Log;
 
 namespace ProjetoPooAdaBank.Contas
 {
-    [JsonConverter(typeof(Json))]
     internal class ContaPoupanca : Conta
     {
         static readonly int saldoMin = 50;
@@ -21,7 +18,7 @@ namespace ProjetoPooAdaBank.Contas
             Cliente titular,
             double valorInicial) : base(numeroConta, email, senha, titular)
         {
-            TipoConta = "ContaPoupanca";
+            this.TipoConta = 1;
             Saldo = valorInicial;
         }
 

@@ -3,14 +3,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using ProjetoPooAdaBank.Clientes;
-using ProjetoPooAdaBank.Log;
 
 namespace ProjetoPooAdaBank.Contas
 {
-    [JsonConverter(typeof(Json))]
     public class ContaSalario : Conta
     {
         public Holerite Holerite { get; private set; }
@@ -22,7 +19,7 @@ namespace ProjetoPooAdaBank.Contas
             Cliente titular,
             Holerite holerite) : base(numeroConta, email, senha, titular)
         {
-            TipoConta = "ContaSalario";
+            this.TipoConta = 2;
             Holerite = holerite;
         }
 

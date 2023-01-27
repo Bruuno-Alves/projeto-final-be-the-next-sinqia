@@ -4,23 +4,20 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
-using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using ProjetoPooAdaBank.Clientes;
-using ProjetoPooAdaBank.Log;
 
 namespace ProjetoPooAdaBank.Contas
 {
-    [JsonConverter(typeof(Json))]
     public abstract class Conta
-    {
-        public string TipoConta { get; set; }
-        public int NumeroAgencia { get; set; }
-        public int NumeroConta { get; set; }
+    { 
+        public int TipoConta { get; protected set; }
+        public int NumeroAgencia { get; private set; }
+        public int NumeroConta { get; private set; }
         public Cliente Titular { get; set; }
-        public double Saldo { get; set; }
-        public string Email {  get;  set; }
-        public string Senha { get; set; }
+        public double Saldo { get; protected set; }
+        public string Email { get; protected set; }
+        public string Senha { get; private set; }
         public List<Transacao> Extrato { get; private set; }
         private double ValorTaxaManutencao { get; set; }
         public static int ContasAbertas { get; private set; }
@@ -28,7 +25,6 @@ namespace ProjetoPooAdaBank.Contas
 
         public static List<Conta> ContasCriadas = new List<Conta>();
 
-        
         public Conta( int numeroConta, string email, string senha, Cliente titular)
         {
             NumeroAgencia = 0001;
@@ -40,8 +36,6 @@ namespace ProjetoPooAdaBank.Contas
             ContasAbertas++;
             DataAbertura = DateTime.Now;
             ContasCriadas.Add(this);
-            Json.AdicionaNoJSON(this);
-            Logger.Log(this);
         }
 
         public static (Conta, bool) Logar(string email, string senha)
@@ -201,13 +195,6 @@ namespace ProjetoPooAdaBank.Contas
             }
         }
 
-        //public void SalvarLogin(string login, string senha)
-        //{
-
-        //    StreamWriter writer = new StreamWriter("userinfo.txt", true);
-        //    writer.WriteLine($"{ login}:{senha }");
-        //    writer.Close();
-        //}
         public static void FazerOperacao(Conta conta, int operacao)
         {
             double valor;

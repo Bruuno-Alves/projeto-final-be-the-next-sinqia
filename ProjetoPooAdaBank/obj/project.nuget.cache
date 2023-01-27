@@ -1,10 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "sM7xJpwzombrM0PZoJTStHDvZW1t6IdA2uPNktBZnikqj3ykQ0XuMYrxfFLdfmLi7Jv7Z1G/7x65dKrR09mPxA==",
+  "dgSpecHash": "hRmJzf5ltmZ7qsKhlt9/mtH0BMi12Cn7AhZ+q8jnwCvsDJOV4nxO4vi3Uqz6jvPXF7NJodURHtFXIPgRPAp+wA==",
   "success": true,
   "projectFilePath": "C:\\Users\\Richard\\source\\repos\\projeto-final-be-the-next-sinqia\\ProjetoPooAdaBank\\ProjetoPooAdaBank.csproj",
-  "expectedPackageFiles": [
-    "C:\\Users\\Richard\\.nuget\\packages\\newtonsoft.json\\13.0.2\\newtonsoft.json.13.0.2.nupkg.sha512"
-  ],
+  "expectedPackageFiles": [],
   "logs": []
 }

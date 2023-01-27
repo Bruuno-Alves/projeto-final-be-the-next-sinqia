@@ -1,14 +1,12 @@
 ﻿using ProjetoPooAdaBank.Clientes;
-using ProjetoPooAdaBank.Log;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace ProjetoPooAdaBank.Contas
-{[JsonConverter(typeof(Json))]
+{
     public class ContaCorrente : Conta
     {
         static readonly int saldoMin = 0;
@@ -19,7 +17,7 @@ namespace ProjetoPooAdaBank.Contas
             Cliente titular,
             double valorInicial) : base(numeroConta, email, senha, titular)
         {
-            TipoConta = "ContaCorrente";
+            this.TipoConta = 4;
             Saldo = valorInicial;
         }
 

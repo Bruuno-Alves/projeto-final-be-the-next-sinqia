@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 C:\Users\Richard\source\repos\projeto-final-be-the-next-sinqia\ProjetoPooAdaBank\obj\Debug\net6.0\ProjetoPooAdaBank.csproj.AssemblyReference.cache
 C:\Users\Richard\source\repos\projeto-final-be-the-next-sinqia\ProjetoPooAdaBank\obj\Debug\net6.0\ProjetoPooAdaBank.GeneratedMSBuildEditorConfig.editorconfig
 C:\Users\Richard\source\repos\projeto-final-be-the-next-sinqia\ProjetoPooAdaBank\obj\Debug\net6.0\ProjetoPooAdaBank.AssemblyInfoInputs.cache
@@ -29,7 +28,3 @@ C:\Users\Usuario\source\repos\projeto-final-be-the-next-sinqia\ProjetoPooAdaBank
 C:\Users\Usuario\source\repos\projeto-final-be-the-next-sinqia\ProjetoPooAdaBank\obj\Debug\net6.0\ProjetoPooAdaBank.pdb
 C:\Users\Usuario\source\repos\projeto-final-be-the-next-sinqia\ProjetoPooAdaBank\obj\Debug\net6.0\ProjetoPooAdaBank.genruntimeconfig.cache
 C:\Users\Usuario\source\repos\projeto-final-be-the-next-sinqia\ProjetoPooAdaBank\obj\Debug\net6.0\ref\ProjetoPooAdaBank.dll
-C:\Users\Richard\source\repos\projeto-final-be-the-next-sinqia\ProjetoPooAdaBank\bin\Debug\net6.0\Newtonsoft.Json.dll
-C:\Users\Richard\source\repos\projeto-final-be-the-next-sinqia\ProjetoPooAdaBank\obj\Debug\net6.0\ProjetoPooAdaBank.csproj.CopyComplete
-=======
->>>>>>> 199d4c1ce1e67d7dcfa90ebdafe685f86f8f2b82

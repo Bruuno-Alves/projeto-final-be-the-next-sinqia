@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ProjetoPooAdaBank.Clientes
 {
-    public class Endereco 
+    public class Endereco
     {
         public string Rua { get; set; }
         public int Numero { get; set; }
@@ -77,7 +77,5 @@ namespace ProjetoPooAdaBank.Clientes
         {
             return $"Rua {Rua}, nº {Numero} - {Bairro} - {Cidade} - {Estado}";
         }
-
-
     }
 }
