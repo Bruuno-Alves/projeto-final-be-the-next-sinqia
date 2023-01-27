@@ -1,11 +1,17 @@
-﻿using ProjetoPooAdaBank.Clientes;
+﻿using Newtonsoft.Json;
+using ProjetoPooAdaBank.Clientes;
 using ProjetoPooAdaBank.Contas;
+using ProjetoPooAdaBank.Log;
+using System.Security.Principal;
+
 namespace ProjetoPooAdaBank
 {
     public class Program
     {
         static void Main(string[] args)
         {
+            Json.CarregaJson();
+            
 
             Endereco endereco = new Endereco("Rua Jose Seabra", 190, "Jardins", "Aracaju", "SE");
             Cliente cliente = new Cliente("Jonas Augusto", "000.000.000-00", endereco);
@@ -18,8 +24,6 @@ namespace ProjetoPooAdaBank
             Cliente cliente3 = new("DayTrader", "222.222.222-22",endereco3);
             Holerite holerite3 = new Holerite("12.345.678/0001-77", 6550.70, new DateTime(2022, 10, 25));
 
-            //contas do Jonas
-
             ContaSalario contaSalario = new ContaSalario(1234,
                                                         "jonas@gmail.com",
                                                         "123456", 
@@ -30,13 +34,13 @@ namespace ProjetoPooAdaBank
             ContaPoupanca contaPoupanca2 = new ContaPoupanca(2345,"jonas@gmail.com","poupanca",cliente, 200);
             ContaInvestimento contaInvestimentoJonas = new(3456, "jonas@gmail.com", "investimento",cliente, true);
 
-            //outras contas:
             ContaPoupanca contaPoupanca = new ContaPoupanca(4567, "rita@gmail.com", "456789", cliente2, 100);
-            ContaInvestimento fariaLimer = new(9999,"sirigueijo@gmail.com","654321",cliente3,true);
+            ContaInvestimento fariaLimer = new(9999, "sirigueijo@gmail.com", "654321", cliente3, true);
             ContaSalario contaSalarioFariaLimer = new ContaSalario(9998, "sirigueijo@gmail.com", "654321", cliente3, holerite3);
 
-
             MenuAberturaConta menu = new MenuAberturaConta();
+
+           
             menu.Menu();
         }
     }

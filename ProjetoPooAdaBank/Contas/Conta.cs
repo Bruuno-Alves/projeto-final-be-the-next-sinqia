@@ -4,20 +4,23 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using ProjetoPooAdaBank.Clientes;
+using ProjetoPooAdaBank.Log;
 
 namespace ProjetoPooAdaBank.Contas
 {
+    [JsonConverter(typeof(Json))]
     public abstract class Conta
     {
-        public int TipoConta { get; protected set; }
-        public int NumeroAgencia { get; private set; }
-        public int NumeroConta { get; private set; }
+        public string TipoConta { get; set; }
+        public int NumeroAgencia { get; set; }
+        public int NumeroConta { get; set; }
         public Cliente Titular { get; set; }
-        public double Saldo { get; protected set; }
-        public string Email { get; protected set; }
-        public string Senha { get; private set; }
+        public double Saldo { get; set; }
+        public string Email {  get;  set; }
+        public string Senha { get; set; }
         public List<Transacao> Extrato { get; private set; }
         private double ValorTaxaManutencao { get; set; }
         public static int ContasAbertas { get; private set; }
@@ -25,6 +28,7 @@ namespace ProjetoPooAdaBank.Contas
 
         public static List<Conta> ContasCriadas = new List<Conta>();
 
+        
         public Conta( int numeroConta, string email, string senha, Cliente titular)
         {
             NumeroAgencia = 0001;
@@ -36,6 +40,8 @@ namespace ProjetoPooAdaBank.Contas
             ContasAbertas++;
             DataAbertura = DateTime.Now;
             ContasCriadas.Add(this);
+            Json.AdicionaNoJSON(this);
+            Logger.Log(this);
         }
 
         public static (Conta, bool) Logar(string email, string senha)
@@ -159,6 +165,107 @@ namespace ProjetoPooAdaBank.Contas
             return Tuple.Create(email,senha);
         }
 
-        public abstract Conta CriarConta(Cliente clienteCadastrado);
+        public static (Conta?, bool) CriarConta(Cliente clienteCadastrado)
+        {
+            int tipoConta;
+
+            Console.WriteLine("Que tipo de conta você deseja abrir?");
+            Console.WriteLine("[1] - Poupança\n[2] - Salario\n[3] - Investimento");
+
+            do
+            {
+                int.TryParse(Console.ReadLine(), out tipoConta);
+            } while (tipoConta < 1 || tipoConta > 3);
+
+            Console.Clear();
+
+            if (tipoConta == 1)
+            {
+                ContaPoupanca contaPoupanca = ContaPoupanca.CriarConta(clienteCadastrado);
+                return (contaPoupanca, true);
+
+            } else if(tipoConta == 2)
+            {
+                ContaSalario contaSalario = ContaSalario.CriarConta(clienteCadastrado);
+                return (contaSalario, true);
+
+            } else if(tipoConta == 3)
+            {
+                ContaInvestimento contaInvestimento = ContaInvestimento.CriarConta(clienteCadastrado);
+
+                return (contaInvestimento, true);
+            } else
+            {
+                Console.WriteLine("Erro ao criar a conta! Tente novamente mais tarde");
+                return (null, false);
+            }
+        }
+
+        //public void SalvarLogin(string login, string senha)
+        //{
+
+        //    StreamWriter writer = new StreamWriter("userinfo.txt", true);
+        //    writer.WriteLine($"{ login}:{senha }");
+        //    writer.Close();
+        //}
+        public static void FazerOperacao(Conta conta, int operacao)
+        {
+            double valor;
+            bool sucedido = false;
+            String cpf;
+            int numeroConta;
+
+            if (operacao == 1)
+            {
+                Console.WriteLine("Digite o valor a ser sacado");
+                sucedido = double.TryParse(Console.ReadLine(), out valor);
+
+                if (sucedido)
+                {
+                    conta.Sacar(valor);
+                }
+            }
+            else if (operacao == 2)
+            {
+                conta.MostrarExtrato();
+            }
+            else if (operacao == 3)
+            {
+                Console.WriteLine("Digite o valor a ser depositado");
+                sucedido = double.TryParse(Console.ReadLine(), out valor);
+
+                if (sucedido)
+                {
+                    conta.Depositar(valor);
+
+                }
+            }
+            else if (operacao == 4)
+            {
+                Console.WriteLine("Digite o valor a ser tranferido");
+                sucedido = double.TryParse(Console.ReadLine(), out valor);
+
+                Console.WriteLine("Digite o CPF do titular da conta para qual deseja transferir");
+                cpf = Console.ReadLine();
+
+                Console.WriteLine("Digite o nº da conta para qual deseja transferir");
+                int.TryParse(Console.ReadLine(), out numeroConta);
+
+                conta.Transferir(valor, cpf, numeroConta);
+            }
+            else if (operacao == 5)
+            {
+                Console.WriteLine($"O seu saldo atual é de R${conta.Saldo}");
+            }
+            else if (operacao == 6 && conta is ContaInvestimento)
+            {
+                var contaInvestimento = (ContaInvestimento)conta;
+                contaInvestimento.Investir();
+            }
+            else
+            {
+                Console.WriteLine("Digite um valor válido ou pressione 'E' para sair");
+            }
+        }
     }
 }

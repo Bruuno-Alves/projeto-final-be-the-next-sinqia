@@ -1,9 +1,12 @@
 ﻿using ProjetoPooAdaBank.Clientes;
+using ProjetoPooAdaBank.Log;
 using System;
+using System.Text.Json.Serialization;
 
 namespace ProjetoPooAdaBank.Contas
 {
-	public class ContaInvestimento : Conta
+    [JsonConverter(typeof(Json))]
+    public class ContaInvestimento : Conta
 	{
 		public string PerfilInvestidor { get;private set; }
 
@@ -13,7 +16,7 @@ namespace ProjetoPooAdaBank.Contas
             string senha,
             Cliente titular, bool ignoraPerfil) : base(numeroConta, email, senha, titular)
 		{
-            this.TipoConta = 3;
+            TipoConta = "ContaInvestimento";
         }
         public ContaInvestimento(
             int numeroConta,
@@ -21,7 +24,7 @@ namespace ProjetoPooAdaBank.Contas
             string senha,
             Cliente titular) : base(numeroConta, email, senha, titular)
         {
-            this.TipoConta = 3;
+            TipoConta = "ContaInvestimento";
             PerfilInvestidor = AvaliaPerfil();
         }
 
@@ -270,6 +273,31 @@ namespace ProjetoPooAdaBank.Contas
         {
             double tarifa = Saldo * 0.008;
             return tarifa;
+        }
+
+        public static ContaInvestimento CriarConta(Cliente clienteCadastrado)
+        {
+            String email, senha;
+            Random random = new Random();
+            Console.Clear();
+            Console.WriteLine("Informe o seu Email");
+            email = Console.ReadLine();
+            Console.Clear();
+            Console.WriteLine("Crie uma senha");
+            senha = Console.ReadLine();
+
+            ContaInvestimento contaInvestimento = new(random.Next(0, 9999), email, senha, clienteCadastrado);
+            Console.Clear();
+
+
+            Console.WriteLine("Conta Investimento aberta com sucesso!");
+            Console.WriteLine($"Agência: {contaInvestimento.NumeroAgencia}, " +
+                                $"Conta: {contaInvestimento.NumeroConta}, " +
+                                $"Titular: {contaInvestimento.Titular.Nome}, " +
+                                $"Data de abertura: {contaInvestimento.DataAbertura}\n" +
+                                $"Perfil De Investidor: {contaInvestimento.PerfilInvestidor} ");
+
+            return contaInvestimento;
         }
     }
 }

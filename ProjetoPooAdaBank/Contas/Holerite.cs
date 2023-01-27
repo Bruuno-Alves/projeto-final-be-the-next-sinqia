@@ -23,6 +23,52 @@ namespace ProjetoPooAdaBank.Contas
             DataHolerite = dataHolerite;
         }
 
+        public static Holerite CadastrarHolerite()
+        {
+            String cnpjEmpregador;
+            double salario;
+            bool converteu = false;
+            bool validar = false;
+            DateTime dataHolerite;
+
+            Console.WriteLine("Informe o CNPJ do seu empregador");
+            cnpjEmpregador = Console.ReadLine();
+
+            Console.Clear();
+
+            Console.WriteLine("Informe o seu salário líquido");
+            do
+            {
+                converteu = double.TryParse(Console.ReadLine(), out salario);
+
+                if (salario <= 0)
+                {
+                    Console.WriteLine("Digite um salário válido!");
+                }
+            } while (salario <= 0);
+
+            Console.Clear();
+
+            Console.WriteLine("Informe a data do seu último holerite");
+
+            do
+            {
+                DateTime.TryParse(Console.ReadLine(), out dataHolerite);
+                validar = Holerite.ValidarDataHolerite(dataHolerite);
+                if (validar == false)
+                {
+                    Console.WriteLine("A data do holerite é superior a 90 dias. Digite um mais recente!");
+                }
+
+            } while (validar == false);
+
+            Holerite holerite = new Holerite(cnpjEmpregador, salario, dataHolerite);
+
+            Console.Clear();
+            return holerite;
+        }
+
+
         public static bool ValidarDataHolerite(DateTime dataHolerite) {
 
             DateTime dataAtual = DateTime.Today;
